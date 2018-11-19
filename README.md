@@ -1,6 +1,6 @@
 # fotocomedown
 
-[![Build Status](https://travis-ci.com/uwedeportivo/fotocomedown.svg?branch=master)](https://travis-ci.com/uwedeportivo/fotocomedown)
+[![Build Status](https://travis-ci.com/uwedeportivo/fotocomedown.svg?branch=master)](https://travis-ci.com/uwedeportivo/fotocomedown) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 fotocomedown is a command line tool to download all your photos from [fotocommunity.de](https://www.fotocommunity.de).
 
