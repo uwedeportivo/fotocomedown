@@ -46,7 +46,7 @@ NAME:
    fotocomedown - command line app downloads all your photos from fotocommunity.de
 
 USAGE:
-   fotocomedown [global options] command [command options] [arguments...]
+   fotocomedown [global options]
 
 VERSION:
    1.0
@@ -61,7 +61,7 @@ COMMANDS:
      help, h  Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
-   --out DIR, -o DIR     Output DIR where images are downloaded to
+   --out DIR, -o DIR     Output DIR where images are downloaded to. If not specified uses current working dir. If it doesn't exist, creates it.
    --user USER, -u USER  fotocommunity.de USER for whom images are downloaded
    --help, -h            show help
    --version, -v         print the version

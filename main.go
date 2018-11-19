@@ -423,11 +423,12 @@ func main() {
 	app.Copyright = "Uwe Hoffmann (c) 2018"
 	app.HelpName = "fotocomedown"
 	app.Usage = "command line app downloads all your photos from fotocommunity.de"
+	app.UsageText = "fotocomedown [global options]"
 
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:  "out, o",
-			Usage: "Output `DIR` where images are downloaded to",
+			Usage: "Output `DIR` where images are downloaded to. If not specified uses current working dir. If it doesn't exist, creates it.",
 		},
 		cli.StringFlag{
 			Name:  "user, u",
