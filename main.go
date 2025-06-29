@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/cookiejar"
@@ -31,11 +30,11 @@ import (
 const (
 	numWorkers = 20
 	topUrl     = "https://www.fotocommunity.de"
-	loginUrl   = "https://www.fotocommunity.de/login"
+	loginUrl   = "https://www.fotocommunity.de/_login/perform"
 	userPhotos = "https://www.fotocommunity.de/user_photos"
 )
 
-var userIdRegex = regexp.MustCompile(`\[fc-user:(\d+)\]`)
+var userIdRegex = regexp.MustCompile(`\[fc-user:(\d+)]`)
 var paginationRegex = regexp.MustCompile(`Seite\s+(\d+)\s+von\s+(\d+)`)
 
 func login(user, password string) (*http.Client, int, error) {
@@ -75,7 +74,7 @@ func login(user, password string) (*http.Client, int, error) {
 	}
 	defer resp.Body.Close()
 
-	bs, err := ioutil.ReadAll(resp.Body)
+	bs, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, -1, err
 	}
@@ -95,14 +94,14 @@ func login(user, password string) (*http.Client, int, error) {
 }
 
 type photoInfo struct {
-	counter int
-	filename string
-	title string
-	pageUrl string
-	originalUrl string
+	counter           int
+	filename          string
+	title             string
+	pageUrl           string
+	originalUrl       string
 	originalUrlPrefix string
-	dataId int
-	client *http.Client
+	dataId            int
+	client            *http.Client
 }
 
 func extractPhotoInfo(anchor *html.Node, counter int, outDirPath string) (*photoInfo, error) {
@@ -134,12 +133,12 @@ func extractPhotoInfo(anchor *html.Node, counter int, outDirPath string) (*photo
 	originalUrlPrefix := dataSrcUrl.String()
 
 	return &photoInfo{
-		counter:counter,
-		pageUrl:topUrl + link,
-		dataId: int(dataId),
-		title: title,
-		filename: filepath.Join(outDirPath, filename),
-		originalUrlPrefix:originalUrlPrefix,
+		counter:           counter,
+		pageUrl:           topUrl + link,
+		dataId:            int(dataId),
+		title:             title,
+		filename:          filepath.Join(outDirPath, filename),
+		originalUrlPrefix: originalUrlPrefix,
 	}, nil
 }
 
@@ -167,7 +166,7 @@ func extractNextPage(div *html.Node) (int, error) {
 	}
 
 	if currentPage < totalPages {
-		return int(currentPage+1), nil
+		return int(currentPage + 1), nil
 	}
 	return -1, nil
 }
@@ -192,7 +191,7 @@ func photosPage(client *http.Client, url string, counter int, outDirPath string)
 
 	pis := make([]*photoInfo, 0, len(anchors))
 	for i, anchor := range anchors {
-		pi, err := extractPhotoInfo(anchor, i + counter, outDirPath)
+		pi, err := extractPhotoInfo(anchor, i+counter, outDirPath)
 		if err != nil {
 			return nil, -1, -1, err
 		}
